@@ -10,16 +10,17 @@ namespace WebSalesMvc.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Index() //tipo generico, cada tipo tem um metodo que gera um retorno diferente
         {
             return View();
         }
-
-        public IActionResult About()
+        //é chamado o controlador por padrao, e ele faz a requisicao para a pagina
+        public IActionResult About()//se digitar home/about trará essa pagina.
         {
-            ViewData["Message"] = "Your application description page.";
+            ViewData["Message"] = "Your application description page.";//obj ViewData, dictionary com chave e valor
+            ViewData["Teste"] = "Colocando mais um valor nessa pagina.";
 
-            return View();
+            return View();//retorna um IActionResult
         }
 
         public IActionResult Contact()
