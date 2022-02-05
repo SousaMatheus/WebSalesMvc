@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebSalesMvc.Models;
+using WebSalesMvc.Models.ViewModels;
 
 namespace WebSalesMvc.Controllers
 {
@@ -14,7 +15,7 @@ namespace WebSalesMvc.Controllers
         {
             return View();
         }
-        //é chamado o controlador por padrao, e ele faz a requisicao para a pagina
+        //é chamado o controlador por padrao, e ele faz a
         public IActionResult About()//se digitar home/about trará essa pagina.
         {
             ViewData["Message"] = "Your application description page.";//obj ViewData, dictionary com chave e valor
