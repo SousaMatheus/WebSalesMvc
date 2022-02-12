@@ -38,14 +38,18 @@ namespace WebSalesMvc
 
             services.AddDbContext<WebSalesMvcContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("WebSalesMvcContext")));
+
+            //*****************************
+            services.AddScoped<SeedingService>();//registra o serviço no sitema de injeçao de dependencia 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                seedingService.Seed();//popula a base de dados caso nao esteja ainda
             }
             else
             {
