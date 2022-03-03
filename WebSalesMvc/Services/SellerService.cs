@@ -19,5 +19,10 @@ namespace WebSalesMvc.Services
         {
             return _context.Seller.ToList();//retorna do banco de dados todos os vendedores
         }
+        public void Insert(Seller obj)
+        {
+            _context.Add(obj);
+            _context.SaveChanges();
+        }
     }
 }
