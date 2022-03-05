@@ -21,6 +21,7 @@ namespace WebSalesMvc.Services
         }
         public void Insert(Seller obj)
         {
+            obj.Department = _context.Department.First();//medida para adicionar um departamento provisoriamente
             _context.Add(obj);
             _context.SaveChanges();
         }
