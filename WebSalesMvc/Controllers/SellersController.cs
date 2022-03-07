@@ -38,5 +38,26 @@ namespace WebSalesMvc.Controllers
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));//melhora a manutencao do codigo
         }
+        public IActionResult Delete(int? id)//metodo GET Para abrir uma tela de confirmacao
+        {
+            if (id == null)//verifica se o id é nullo
+            {
+                return NotFound();
+            }
+            var obj = _sellerService.FindById(id.Value);
+
+            if (obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
+            {
+                return NotFound();
+            }
+            return View(obj);// ao passar esse objeto para view o framework vai buscar uma pagina chamada Delete
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _sellerService.Remove(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
