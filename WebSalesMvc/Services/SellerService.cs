@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WebSalesMvc.Data;
 using WebSalesMvc.Models;
 using Microsoft.EntityFrameworkCore;
+using WebSalesMvc.Services.Exceptions;
 
 namespace WebSalesMvc.Services
 {
@@ -28,7 +29,7 @@ namespace WebSalesMvc.Services
         public Seller FindById(int id)
         {
             return _context.Seller.Include(obj => obj.Department).FirstOrDefault(obj => obj.Id == id);//necessario utilizar a expressao nao nativa do Linq
-                                                                                                           //Include para realizar eager loading
+                                                                                                      //Include para realizar eager loading
         }
         public void Remove(int id)
         {
@@ -40,6 +41,23 @@ namespace WebSalesMvc.Services
         internal void Details(int id)
         {
             throw new NotImplementedException();
+        }
+        public void Update(Seller obj)//atualizar um vendedor
+        {
+            if (!_context.Seller.Any(x => x.Id == obj.Id))//verifica se tem no banco de dados um vendedor com id igual do objeto
+            {
+                throw new NotFoundException("Id not found");
+            }
+            try
+            {
+                _context.Update(obj);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+                throw new DbConccurrencyException(ex.Message);//intercepto a exception nivel REPOSITORIES (bd) e lanço a nivel servico para controller
+            }
         }
     }
 }
