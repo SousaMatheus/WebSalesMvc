@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebSalesMvc.Data;
 using WebSalesMvc.Services;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace WebSalesMvc
 {
@@ -49,6 +51,16 @@ namespace WebSalesMvc
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, SeedingService seedingService)
         {
+            var enUns = new CultureInfo("en-Us");//definindo locale dos Estados Unidos
+            var localizationOptions = new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture(enUns),
+                SupportedCultures = new List<CultureInfo> { enUns },
+                SupportedUICultures = new List<CultureInfo> { enUns }
+            };
+
+            app.UseRequestLocalization(localizationOptions);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,8 +10,18 @@ namespace WebSalesMvc.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
+        [Display(Name = "E-mail")]
+        [EmailAddress]
         public string Email { get; set; }
+
+        [Display(Name = "Birth Date")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime BirthDate { get; set; }
+
+        [Display(Name = "Base Salary")]
+        [DisplayFormat (DataFormatString = "{0:F2}")]//0 significa o valor do atributo e a formatacao dele
         public double BaseSalary { get; set; }
         public Department Department { get; set; }
         public int DepartmentId { get; set; }// framework entende quer quero guardar o ID do department, colocando como int que e struct (nao pode ser nulo)
