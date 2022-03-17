@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebSalesMvc.Models;
 using WebSalesMvc.Models.ViewModels;
-
 using WebSalesMvc.Services;
 using WebSalesMvc.Services.Exceptions;
 
@@ -16,7 +16,7 @@ namespace WebSalesMvc.Controllers
         private readonly SellerService _sellerService;
         private readonly DepartmentService _departmentService;// dependencia com DepartmentService
 
-        public SellersController (SellerService sellerService, DepartmentService departmentService)//adcionado no construtor para que ele possa ser injetado
+        public SellersController(SellerService sellerService, DepartmentService departmentService)//adcionado no construtor para que ele possa ser injetado
         {
             _sellerService = sellerService;
             _departmentService = departmentService;
@@ -34,22 +34,22 @@ namespace WebSalesMvc.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create (Seller seller)//acao do tipo POST 
+        public IActionResult Create(Seller seller)//acao do tipo POST 
         {
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));//melhora a manutencao do codigo
         }
         public IActionResult Delete(int? id)//metodo GET Para abrir uma tela de confirmacao
         {
-            if (id == null)//verifica se o id é nullo
+            if(id == null)//verifica se o id é nullo
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });//redirecionando para o controller Error e passando um objeto anonimo como argumento
             }
             var obj = _sellerService.FindById(id.Value);
 
-            if (obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
+            if(obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             return View(obj);// ao passar esse objeto para view o framework vai buscar uma pagina chamada Delete
         }
@@ -62,29 +62,29 @@ namespace WebSalesMvc.Controllers
         }
         public IActionResult Details(int? id)
         {
-            if (id == null)//verifica se o id é nullo
+            if(id == null)//verifica se o id é nullo
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
             var obj = _sellerService.FindById(id.Value);
 
-            if (obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
+            if(obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             return View(obj);
         }
-        public IActionResult Edit (int? id)
+        public IActionResult Edit(int? id)
         {
-            if (id == null)//verifica se o id é nullo
+            if(id == null)//verifica se o id é nullo
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
             var obj = _sellerService.FindById(id.Value);
 
-            if (obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
+            if(obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
             {
-                return NotFound();
+                return RedirectToAction(nameof(Error), new { message = "Id not found" });
             }
             List<Department> departments = _departmentService.FindAll();
             SellerFormViewModel viewModel = new SellerFormViewModel { Seller = obj, Departments = departments };//carregando a viewmodel com o seller que buscamos pelo id
@@ -93,28 +93,36 @@ namespace WebSalesMvc.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit (int id, Seller seller)//verifica se o Id da URL e diferente do Id da requisicao.
-                                                         //Importante o objeto seller ter esse nome, caso seja outro nao atualiza!
+        public IActionResult Edit(int id, Seller seller)//verifica se o Id da URL e diferente do Id da requisicao.
+                                                        //Importante o objeto seller ter esse nome, caso seja outro nao atualiza!
         {
-            if (id != seller.Id)
+            if(id != seller.Id)
             {
-                return BadRequest();
+                return RedirectToAction(nameof(Error), new { message = "Id mismatch" });//nao correspondem
             }
             try
             {
                 _sellerService.Update(seller);
                 return RedirectToAction(nameof(Index));
             }
-            catch (NotFoundException)
+            catch(NotFoundException ex )//poderia ser utilizado superclasse ApplicationException e retornar a mensagem dela
             {
 
-                return NotFound();//provisorio
+                return RedirectToAction(nameof(Error), new { message = ex.Message });
             }
-            catch (DbConccurrencyException)
+            catch(DbConccurrencyException ex)
             {
-                return BadRequest();//provisorio
+                return RedirectToAction(nameof(Error), new { message = ex.Message });
             }
-
+        }
+        public IActionResult Error(string message)
+        {
+            var viewModel = new ErrorViewModel
+            {
+                Message = message,
+                RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier //macete do framework para buscar o Id da requisicao
+            };
+            return View(viewModel);
         }
     }
 }

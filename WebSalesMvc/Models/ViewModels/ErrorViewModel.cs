@@ -5,7 +5,8 @@ namespace WebSalesMvc.Models.ViewModels
     public class ErrorViewModel
     {
         public string RequestId { get; set; }
+        public string Message { get; set; }
 
-        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);//funcao para testar se o RequestId e nulo
     }
 }
