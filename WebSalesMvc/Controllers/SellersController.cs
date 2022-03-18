@@ -36,6 +36,13 @@ namespace WebSalesMvc.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)//acao do tipo POST 
         {
+            if(!ModelState.IsValid)//verifica se a requisicao e valida sem necessidade do javascript
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments } ;
+                return View(viewModel);//retornar a viewModel
+            }
+
             _sellerService.Insert(seller);
             return RedirectToAction(nameof(Index));//melhora a manutencao do codigo
         }
@@ -96,6 +103,13 @@ namespace WebSalesMvc.Controllers
         public IActionResult Edit(int id, Seller seller)//verifica se o Id da URL e diferente do Id da requisicao.
                                                         //Importante o objeto seller ter esse nome, caso seja outro nao atualiza!
         {
+            if(!ModelState.IsValid)//verifica se a requisicao e valida sem precisar do javascript
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel { Seller = seller, Departments = departments };
+                return View(viewModel);//retornar a viewModel
+            }
+
             if(id != seller.Id)
             {
                 return RedirectToAction(nameof(Error), new { message = "Id mismatch" });//nao correspondem

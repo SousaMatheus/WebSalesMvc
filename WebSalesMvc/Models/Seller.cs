@@ -9,19 +9,26 @@ namespace WebSalesMvc.Models
     public class Seller
     {
         public int Id { get; set; }
+        [Required(ErrorMessage =  "{0} required")]//{0} e o nome do atributo
+        [StringLength(70, MinimumLength =  3, ErrorMessage = "{0} must be btween {2} and {1}")]//{1} primeiro parametro
         public string Name { get; set; }
 
         [Display(Name = "E-mail")]
-        [EmailAddress]
+        [DataType(DataType.EmailAddress)]
+        [Required(ErrorMessage = "{0} required")]
+        [EmailAddress(ErrorMessage = "Enter a valid email")]
         public string Email { get; set; }
 
         [Display(Name = "Birth Date")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
+        [Required(ErrorMessage = "{0} required")]
         public DateTime BirthDate { get; set; }
 
         [Display(Name = "Base Salary")]
         [DisplayFormat (DataFormatString = "{0:F2}")]//0 significa o valor do atributo e a formatacao dele
+        [Required(ErrorMessage = "{0} required")]
+        [Range(100.0, 100000.0, ErrorMessage = "{0} must be from {1} to {2}")]
         public double BaseSalary { get; set; }
         public Department Department { get; set; }
         public int DepartmentId { get; set; }// framework entende quer quero guardar o ID do department, colocando como int que e struct (nao pode ser nulo)
