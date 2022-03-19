@@ -1,6 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;//necessario para utilizar o  ToListAsync
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WebSalesMvc.Data;
 using WebSalesMvc.Models;
 
@@ -14,9 +15,10 @@ namespace WebSalesMvc.Services
         {
             _context = context;
         }
-        public List<Department> FindAll()
+        public async Task<List<Department>> FindAllAsync()
         {
-            return _context.Department.OrderBy(x => x.Name).ToList();//ordena os departamentos por listas usando o Linq OrderBy
+
+            return await _context.Department.OrderBy(x => x.Name).ToListAsync();//ordena os departamentos por listas usando o Linq OrderBy
         }
     }
 }
