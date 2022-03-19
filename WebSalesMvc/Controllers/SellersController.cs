@@ -34,7 +34,7 @@ namespace WebSalesMvc.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task <IActionResult> Create(Seller seller)//acao do tipo POST 
+        public async Task<IActionResult> Create(Seller seller)//acao do tipo POST 
         {
             if(!ModelState.IsValid)//verifica se a requisicao e valida sem necessidade do javascript
             {
@@ -43,17 +43,17 @@ namespace WebSalesMvc.Controllers
                 return View(viewModel);//retornar a viewModel
             }
 
-            await _sellerService.InsertAync(seller);
+            await _sellerService.InsertAsync(seller);
             return RedirectToAction(nameof(Index));//melhora a manutencao do codigo
         }
-        public IActionResult Delete(int? id)//metodo GET Para abrir uma tela de confirmacao
+        public async Task<IActionResult> Delete(int? id)//metodo GET Para abrir uma tela de confirmacao
         {
             if(id == null)//verifica se o id é nullo
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });//redirecionando para o controller Error e passando um objeto anonimo como argumento
             }
-            var obj = _sellerService.FindByIdAsync(id.Value);
 
+            var obj = await _sellerService.FindByIdAsync(id.Value);
             if(obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not found" });
@@ -64,16 +64,23 @@ namespace WebSalesMvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-            await _sellerService.Remove(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                await _sellerService.RemoveAsync(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch(IntegrityException e )
+            {
+                return RedirectToAction(nameof(Error), new { message = e.Message });
+            }
         }
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if(id == null)//verifica se o id é nullo
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-            var obj = _sellerService.FindByIdAsync(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
 
             if(obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
             {
@@ -87,7 +94,7 @@ namespace WebSalesMvc.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = "Id not provided" });
             }
-            var obj =await _sellerService.FindByIdAsync(id.Value);
+            var obj = await _sellerService.FindByIdAsync(id.Value);
 
             if(obj == null)//verifica se o metodo nao encontrou nada de acordo com o id
             {
@@ -100,7 +107,7 @@ namespace WebSalesMvc.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task <IActionResult> Edit(int id, Seller seller)//verifica se o Id da URL e diferente do Id da requisicao.
+        public async Task<IActionResult> Edit(int id, Seller seller)//verifica se o Id da URL e diferente do Id da requisicao.
                                                         //Importante o objeto seller ter esse nome, caso seja outro nao atualiza!
         {
             if(!ModelState.IsValid)//verifica se a requisicao e valida sem precisar do javascript

@@ -21,7 +21,7 @@ namespace WebSalesMvc.Services
         {
             return await _context.Seller.ToListAsync();//retorna do banco de dados todos os vendedores
         }
-        public async Task InsertAync(Seller obj)
+        public async Task InsertAsync(Seller obj)
         {
             _context.Add(obj);
             await _context.SaveChangesAsync();
@@ -31,11 +31,18 @@ namespace WebSalesMvc.Services
             return await _context.Seller.Include(obj => obj.Department).FirstOrDefaultAsync(obj => obj.Id == id);//necessario utilizar a expressao nao nativa do Linq
                                                                                                       //Include para realizar eager loading
         }
-        public async Task Remove(int id)
+        public async Task RemoveAsync (int id)
         {
-            var obj = _context.Seller.Find(id);
-            _context.Remove(obj);//remove o obj do dbset
-            await _context.SaveChangesAsync();//efetiva na bd
+            try
+            {
+                var obj = await _context.Seller.FindAsync(id);
+                _context.Remove(obj);//remove o obj do dbset
+                await _context.SaveChangesAsync();//efetiva na bd
+            }
+            catch (DbUpdateException)
+            {
+                throw new IntegrityException("Can't remove seller because he/she has sales");
+            }
         }
 
         internal void Details(int id)
