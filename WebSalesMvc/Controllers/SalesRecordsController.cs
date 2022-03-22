@@ -3,18 +3,37 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebSalesMvc.Services;
 
 namespace WebSalesMvc.Controllers
 {
     public class SalesRecordsController : Controller
     {
+        private readonly SalesRecordService _salesRecordService;
+        public SalesRecordsController( SalesRecordService salesRecordService)
+        {
+            _salesRecordService = salesRecordService;
+        }
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult SimpleSearch()
+        public async Task<IActionResult> SimpleSearch(DateTime? minDate, DateTime? maxDate)
         {
-            return View();
+            if(!minDate.HasValue)
+            {
+               minDate = new DateTime(DateTime.Now.Year, 1, 1);
+            }
+            if(!maxDate.HasValue)
+            {
+               maxDate= DateTime.Now;
+            }
+            //passando os dados de data para a view usando a chave viewData
+            ViewData["minDate"] = minDate.Value.ToString("yyyy-MM-dd");
+            ViewData["maxDate"] = maxDate.Value.ToString("yyyy-MM-dd");
+
+            var result = await _salesRecordService.FindByDateAsync(minDate, maxDate);
+            return View(result);
         }
         public IActionResult GroupingSearch()
         {
