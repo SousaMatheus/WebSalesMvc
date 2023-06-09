@@ -10,7 +10,7 @@ namespace WebSalesMvc.Models
         public string Name { get; set; }
         public ICollection<Seller> Sellers { get; set; } = new List<Seller>();
 
-        public Department()//needed empty constructor for Framework
+        public Department()
         {
         }
 

@@ -1,4 +1,4 @@
-﻿@{//views razor cshtml permitem a linguagem c#, porem nao é boa pratica colocar muito codigo
+﻿@{              
     ViewData["Title"] = "About";
 
     string[] nomes = new string[] { "ma", "ga", "yas", "ju", "duda", "joey" };
@@ -7,7 +7,7 @@
 }
 <h2>@ViewData["Title"]</h2>
 <h3>@ViewData["Message"]</h3>
-<h4>@ViewData["Teste"]</h4> <!--chave do ViewData, sistema troca a referencia pelo valor do controlador -->
+<h4>@ViewData["Teste"]</h4>            
 
 <p>Use this area to provide additional information.</p>
 <p>Esse é um teste apenas.</p>

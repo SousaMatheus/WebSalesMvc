@@ -13,33 +13,27 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            <!--mostra o nome do campo-->
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
-            <!--mostra o valor do campo-->
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            <!--mostra o nome do campo-->
             @Html.DisplayNameFor(model => model.BirthDate)
         </dt>
         <dd>
-            <!--mostra o valor do campo-->
             @Html.DisplayFor(model => model.BirthDate)
         </dd>
         <dt>
-            <!--mostra o nome do campo-->
             @Html.DisplayNameFor(model => model.BaseSalary)
         </dt>
         <dd>
-            <!--mostra o valor do campo-->
             @Html.DisplayFor(model => model.BaseSalary)
         </dd>
     </dl>
-    <form asp-action="Delete"><!--tipo POST-->
+    <form asp-action="Delete"> 
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /><!--vamos enviar o codigo do vendedor q esta sendo deletado-->
-        <a asp-action="Index">Back to list</a><!--link para retornar-->
+        <input type="submit" value="Delete" class="btn btn-danger" />         
+        <a asp-action="Index">Back to list</a>  
     </form>
 </div>

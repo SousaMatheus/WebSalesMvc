@@ -7,9 +7,7 @@
 <hr />
 <div class="row">
     <div class=" col-md-5">
-        <!--bootstrap divide a tela em 12 partes, estou usando 5 delas-->
         <form asp-action="Edit">
-            <!--acao Edit do metodo post-->
             <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" asp-for="Seller.Id" />
             <div class="form-group">
@@ -46,4 +44,4 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}<!--validacao via javascript-->
+}  

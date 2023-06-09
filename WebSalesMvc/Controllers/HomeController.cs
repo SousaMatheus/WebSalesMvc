@@ -1,27 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using WebSalesMvc.Models;
 using WebSalesMvc.Models.ViewModels;
 
 namespace WebSalesMvc.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index() //tipo generico, cada tipo tem um metodo que gera um retorno diferente
+        public IActionResult Index()            
         {
             return View();
         }
-        //é chamado o controlador por padrao, e ele faz a
-        public IActionResult About()//se digitar home/about trará essa pagina.
+        public IActionResult About()     
         {
-            ViewData["Message"] = "Your application description page.";//obj ViewData, dictionary com chave e valor
+            ViewData["Message"] = "Your application description page.";      
             ViewData["Teste"] = "Colocando mais um valor nessa pagina.";
 
-            return View();//retorna um IActionResult
+            return View();  
         }
 
         public IActionResult Contact()

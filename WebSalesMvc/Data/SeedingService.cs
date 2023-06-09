@@ -9,7 +9,6 @@ namespace WebSalesMvc.Data
 {
     public class SeedingService
     {
-        //dependencia do seedingService com dbcontext
         private WebSalesMvcContext _context;
 
         public SeedingService(WebSalesMvcContext context)
@@ -18,7 +17,6 @@ namespace WebSalesMvc.Data
         }
         public void Seed()
         {
-            //se tiver dados na base de dados nao faz nada
             if(_context.Department.Any() ||
                 _context.Seller.Any() ||
                 _context.SalesRecord.Any())
@@ -26,7 +24,7 @@ namespace WebSalesMvc.Data
                 return;
             }
 
-            Department computers = new Department(new int(), "Computer");// deve-se instaciar um new int() pois o valor do database e iniciado automaticamente
+            Department computers = new Department(new int(), "Computer");             
             Department electronics = new Department(new int(), "Electronics");
             Department hardware = new Department(new int(), "Hardware");
             Department accessories = new Department(new int(), "Accessories");

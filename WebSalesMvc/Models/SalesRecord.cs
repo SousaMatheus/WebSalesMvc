@@ -11,7 +11,7 @@ namespace WebSalesMvc.Models
         public SaleStatus Status { get; set; }
         public Seller Seller { get; set; }
 
-        public SalesRecord()//needed empty constructor for Framework
+        public SalesRecord()
         {
         }
 

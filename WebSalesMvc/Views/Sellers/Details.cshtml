@@ -7,40 +7,32 @@
 <div>
     <dl class="dl-horizontal">
         <dt>
-            <!--mostra o nome do campo-->
             @Html.DisplayNameFor(model => model.Name)
         </dt>
         <dd>
-            <!--mostra o valor do campo-->
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
-            <!--mostra o nome do campo-->
             @Html.DisplayNameFor(model => model.BirthDate)
         </dt>
         <dd>
-            <!--mostra o valor do campo-->
             @Html.DisplayFor(model => model.BirthDate)
         </dd>
         <dt>
-            <!--mostra o nome do campo-->
             @Html.DisplayNameFor(model => model.BaseSalary)
         </dt>
         <dd>
-            <!--mostra o valor do campo-->
             @Html.DisplayFor(model => model.BaseSalary)
         </dd>
         <dt>
-            <!--mostra o nome do campo-->
             @Html.DisplayNameFor(model => model.Department)
         </dt>
         <dd>
-            <!--para trazer o nome do departamento precisamos carregar esse objeto primeiro, eager loading-->
             @Html.DisplayFor(model => model.Department.Name)
         </dd>
     </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default"> Edit</a>
-    <a asp-action="Index">Back to list</a><!--link para retornar-->
+    <a asp-action="Index">Back to list</a>  
 </div>

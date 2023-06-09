@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using WebSalesMvc.Data;
 using WebSalesMvc.Models;
 
@@ -12,20 +9,18 @@ namespace WebSalesMvc.Controllers
 {
     public class DepartmentsController : Controller
     {
-        private readonly WebSalesMvcContext _context;//dependencia da classe
+        private readonly WebSalesMvcContext _context;  
 
-        public DepartmentsController(WebSalesMvcContext context)//construtor para injecao de dependencia
+        public DepartmentsController(WebSalesMvcContext context)    
         {
             _context = context;
         }
 
-        // GET: Departments
         public async Task<IActionResult> Index()
         {
             return View(await _context.Department.ToListAsync());
         }
 
-        // GET: Departments/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,15 +38,11 @@ namespace WebSalesMvc.Controllers
             return View(department);
         }
 
-        // GET: Departments/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Departments/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name")] Department department)
@@ -65,7 +56,6 @@ namespace WebSalesMvc.Controllers
             return View(department);
         }
 
-        // GET: Departments/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +71,6 @@ namespace WebSalesMvc.Controllers
             return View(department);
         }
 
-        // POST: Departments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name")] Department department)
@@ -116,7 +103,6 @@ namespace WebSalesMvc.Controllers
             return View(department);
         }
 
-        // GET: Departments/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +120,6 @@ namespace WebSalesMvc.Controllers
             return View(department);
         }
 
-        // POST: Departments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
